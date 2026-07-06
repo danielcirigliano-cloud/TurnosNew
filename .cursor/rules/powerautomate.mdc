@@ -1,0 +1,18 @@
+# Power Automate Rules
+
+Al diseñar flujos:
+- Nombrar cada acción claramente.
+- Evitar variables innecesarias.
+- Evitar Apply to each cuando se pueda usar Filter array, Select o Compose.
+- Documentar expresiones exactas.
+- Controlar errores con Scope Try/Catch.
+- Agregar trazabilidad cuando el proceso sea crítico.
+- Separar lógica de negocio de notificaciones.
+- Validar entradas antes de actualizar SharePoint.
+
+Cada flujo debe indicar:
+- disparador
+- acciones principales
+- expresiones
+- salida esperada
+- errores posibles

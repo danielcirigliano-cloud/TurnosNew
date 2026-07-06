@@ -1,0 +1,22 @@
+# Debugging Rules
+
+Ante un error responder con:
+1. Síntoma
+2. Causa raíz probable
+3. Cómo validarlo
+4. Corrección exacta
+5. Código/configuración corregida
+6. Prevención futura
+
+Priorizar:
+- errores reales
+- logs
+- consola
+- responses HTTP
+- permisos
+- nombres internos
+- autenticación
+- CORS
+- estado de datos
+
+No dar respuestas genéricas.

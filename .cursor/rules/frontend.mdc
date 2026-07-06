@@ -1,0 +1,20 @@
+# Frontend Rules
+
+Stack principal:
+- HTML5 semántico
+- CSS3 responsive
+- JavaScript Vanilla
+
+Reglas:
+- No usar frameworks salvo indicación explícita.
+- Separar HTML, CSS y JS.
+- Evitar lógica inline en HTML.
+- Cachear selectores DOM.
+- Evitar listeners duplicados.
+- Usar async/await para llamadas API.
+- Manejar errores con try/catch.
+- Validar datos antes de enviar.
+- Mantener funciones pequeñas y reutilizables.
+- No reescribir archivos completos si solo se requiere un cambio puntual.
+
+Toda optimización debe ser incremental y de bajo riesgo.

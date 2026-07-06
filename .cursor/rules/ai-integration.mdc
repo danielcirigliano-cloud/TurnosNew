@@ -1,0 +1,17 @@
+# AI Integration Rules
+
+Para cualquier integración con IA:
+- Definir input esperado.
+- Definir output esperado.
+- Preferir JSON estructurado.
+- Validar respuesta antes de usarla.
+- Manejar timeout, errores y JSON inválido.
+- Separar prompt, configuración y lógica de consumo.
+- No confiar ciegamente en la salida del modelo.
+
+Toda solución IA debe incluir:
+- prompt base
+- variables
+- contrato JSON
+- validación
+- fallback

@@ -1,0 +1,20 @@
+# SharePoint / Microsoft 365 Rules
+
+Toda solución SharePoint debe considerar:
+- listas necesarias
+- columnas y tipos de datos
+- nombres internos
+- permisos
+- vistas
+- relaciones entre listas
+- REST API o Microsoft Graph según convenga
+- autenticación
+- paginación
+- manejo de errores
+
+Reglas:
+- No asumir que el navegador local puede consumir SharePoint sin autenticación.
+- Separar modo local/mock de modo productivo.
+- Evitar hardcodear URLs sensibles.
+- Usar configuración centralizada para sitios, listas y endpoints.
+- Preparar la solución para evolución futura a SPFx si aplica.
