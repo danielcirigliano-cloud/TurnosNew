@@ -1,0 +1,16 @@
+﻿ID Zona;Planta;Tipo Carga;Capacidad;Estado
+Z01;Almar;INSUMOS;14;Activo
+Z01;Almar;PACKAGING;14;Activo
+Z01;Almar;NO_PRODUCTIVO;14;Activo
+Z02;Metro Mataderos;INSUMOS;12;Activo
+Z02;Metro Mataderos;PACKAGING;12;Activo
+Z02;Metro Mataderos;NO_PRODUCTIVO;12;Activo
+Z03;Parque Canuelas;INSUMOS;12;Activo
+Z03;Parque Canuelas;PACKAGING;12;Activo
+Z03;Parque Canuelas;NO_PRODUCTIVO;12;Activo
+Z04;Predio Canuelas;INSUMOS;10;Activo
+Z04;Predio Canuelas;PACKAGING;10;Activo
+Z04;Predio Canuelas;NO_PRODUCTIVO;10;Activo
+Z05;Spegazzini;INSUMOS;11;Activo
+Z05;Spegazzini;PACKAGING;11;Activo
+Z05;Spegazzini;NO_PRODUCTIVO;11;Activo

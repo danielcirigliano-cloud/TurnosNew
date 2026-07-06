@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta charset='UTF-8'>
+<title>Turnos V30 FINAL - MOLCA PRO</title>
+<script src='https://cdn.tailwindcss.com'></script>
+<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+<style>
+body{background:#0b1120;color:#e2e8f0;font-family:Arial}
+.slot-free{background:#065f46}
+.slot-pending{background:#78350f}
+.slot-occupied{background:#7f1d1d}
+</style>
+</head>
+<body class='p-6'>
+
+<h1 class='text-2xl text-sky-400 mb-4'>Turnos V30 FINAL - MOLCA PRO</h1>
+
+<div class='grid grid-cols-4 gap-3 mb-6'>
+<input id='f_fecha' type='date' class='p-2 bg-slate-800'>
+<select id='f_planta'><option>Parque Canuelas</option><option>Predio Canuelas</option><option>Metro Mataderos</option></select>
+<select id='f_horario'></select>
+<button onclick='autoAsignar()' class='bg-emerald-600 p-2'>AutoAsignar</button>
+</div>
+
+<div id='panel'></div>
+<canvas id='chart'></canvas>
+
+<script>
+let listaTurnosCache=[];
+let locks={};
+let fechaGlobal=new Date().toISOString().split('T')[0];
+
+function getSlots(){return ['07:00','08:00','09:00','10:00','11:00'];}
+
+// ================= LOCK =================
+function lockSlot(planta,fecha,slot){
+ const key=`${planta}_${fecha}_${slot}`;
+ if(locks[key]) return false;
+ locks[key]=true;
+ return true;
+}
+
+function unlockSlot(planta,fecha,slot){
+ const key=`${planta}_${fecha}_${slot}`;
+ delete locks[key];
+}
+
+// ================= VALIDACION =================
+function slotOcupado(planta,fecha,slot){
+ return listaTurnosCache.some(t=>t.planta==planta&&t.fecha==fecha&&t.slot==slot);
+}
+
+// ================= NOTIFICACIONES =================
+function notificar(msg){
+ console.log("NOTIF:",msg);
+}
+
+// ================= AUTO ASIGNADOR =================
+function autoAsignar(){
+ const planta=document.getElementById('f_planta').value;
+ const fecha=document.getElementById('f_fecha').value;
+ let slots=getSlots();
+ for(let s of slots){
+  if(!slotOcupado(planta,fecha,s)&&lockSlot(planta,fecha,s)){
+    listaTurnosCache.push({planta,fecha,slot:s,estado:'Pendiente'});
+    document.getElementById('f_horario').innerHTML=`<option>${s}</option>`;
+    notificar(`Turno asignado ${s}`);
+    break;
+  }
+ }
+ renderDisponibilidad();
+ renderChart();
+}
+
+// ================= REPROGRAMACION =================
+function reprogramar(){
+ listaTurnosCache.forEach(t=>{
+  if(t.estado=='Pendiente'){
+    unlockSlot(t.planta,t.fecha,t.slot);
+    t.slot='11:00';
+    lockSlot(t.planta,t.fecha,t.slot);
+    t.estado='Reprogramado';
+    notificar('Turno reprogramado');
+  }
+ });
+ renderDisponibilidad();
+ renderChart();
+}
+
+// ================= PLANIFICACION 6AM =================
+function planificar(){
+ if(new Date().getHours()!=6) return;
+ let planta='Parque Canuelas';
+ let fecha=fechaGlobal;
+ getSlots().forEach(s=>{
+  if(lockSlot(planta,fecha,s)){
+   listaTurnosCache.push({planta,fecha,slot:s,estado:'PreAsignado'});
+   notificar('Preasignado '+s);
+  }
+ });
+ renderDisponibilidad();
+}
+setInterval(planificar,60000);
+
+// ================= DISPONIBILIDAD =================
+function renderDisponibilidad(){
+ const div=document.getElementById('panel');
+ const planta=document.getElementById('f_planta').value;
+ const fecha=document.getElementById('f_fecha').value;
+ let html='';
+ getSlots().forEach(s=>{
+  let turno=listaTurnosCache.find(t=>t.planta==planta&&t.fecha==fecha&&t.slot==s);
+  let cls='slot-free';
+  if(turno){
+   if(turno.estado=='Pendiente') cls='slot-pending';
+   else cls='slot-occupied';
+  }
+  html+=`<div class='${cls} p-2'>${s}</div>`;
+ });
+ div.innerHTML=html;
+}
+
+// ================= DASHBOARD =================
+function renderChart(){
+ let ocup=listaTurnosCache.length;
+ let data=[ocup,10-ocup];
+ new Chart(document.getElementById('chart'),{
+  type:'doughnut',
+  data:{labels:['Ocupados','Libres'],datasets:[{data}]}
+ });
+}
+
+// INIT
+document.getElementById('f_fecha').value=fechaGlobal;
+renderDisponibilidad();
+renderChart();
+
+</script>
+</body>
+</html>
